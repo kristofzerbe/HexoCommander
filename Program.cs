@@ -23,7 +23,7 @@ namespace HexoCommander
             var _commandFile = "hexo-commands.txt";
 
             var _run_hexo_newdraft  = "hexo new draft \"@title@\"";
-            var _run_hexo_postdraft = "hexo publish \"@filename@\"";
+            var _run_hexo_postdraft = "hexo publish @filename@";
             var _run_hexo_generate  = "hexo generate";
             var _run_git_stage      = "git add \"source/*\" \"docs/*\"";
             var _run_git_commit     = "git commit -m \"Remote publication via HexoCommander\"";
@@ -66,12 +66,12 @@ namespace HexoCommander
                         switch (cmd)
                         {
                             case "NEWDRAFT": // parameter 1 expects title of draft
-                                cmds.Add(_run_hexo_newdraft.Replace("@title@", arr[1]));
+                                cmds.Add(_run_hexo_newdraft.Replace("@title@", arr[1].Trim().Replace("\"", "")));
                                 RunCommands(cmds, opt.WorkDir);
                                 break;
 
                             case "POSTDRAFT": // parameter 1 expects filename of draft to publish
-                                cmds.Add(_run_hexo_postdraft.Replace("@filename@", arr[1]));
+                                cmds.Add(_run_hexo_postdraft.Replace("@filename@", arr[1].Trim()));
                                 cmds.Add(_run_hexo_generate);
                                 RunCommands(cmds, opt.WorkDir);
                                 break;
