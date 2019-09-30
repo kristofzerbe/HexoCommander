@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 
 namespace HexoCommander
 {
@@ -99,12 +100,16 @@ namespace HexoCommander
                 }
             }
 
-            // comment in for debugging
-            Console.ReadLine();
+            if (Debugger.IsAttached)
+            {
+                Console.ReadLine();
+            }
         }
 
         static void RunCommands(List<string> cmds, string workingDirectory)
         {
+            //https://stackoverflow.com/questions/437419/execute-multiple-command-lines-with-the-same-process-using-net
+
             var proc = new Process();
             var psi = new ProcessStartInfo
             {
@@ -130,6 +135,7 @@ namespace HexoCommander
                     sw.WriteLine(cmd);
                 }
             }
+
             proc.WaitForExit();
         }
 
