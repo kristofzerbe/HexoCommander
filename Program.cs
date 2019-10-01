@@ -24,6 +24,7 @@ namespace HexoCommander
 
             var _run_hexo_newdraft  = "hexo new draft \"@title@\"";
             var _run_hexo_postdraft = "hexo publish @filename@";
+            var _run_hexo_clean     = "hexo clean";
             var _run_hexo_generate  = "hexo generate";
             var _run_git_stage      = "git add \"source/*\" \"docs/*\"";
             var _run_git_commit     = "git commit -m \"Remote publication via HexoCommander\"";
@@ -76,7 +77,8 @@ namespace HexoCommander
                                 RunCommands(cmds, opt.WorkDir);
                                 break;
 
-                            case "GENERATE":
+                            case "REGENERATE":
+                                cmds.Add(_run_hexo_clean);
                                 cmds.Add(_run_hexo_generate);
                                 RunCommands(cmds, opt.WorkDir);
                                 break;
