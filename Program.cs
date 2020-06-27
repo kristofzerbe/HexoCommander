@@ -22,6 +22,7 @@ namespace HexoCommander
 
             var _commandFile = "hexo-commands.txt";
 
+            var _run_hexo_newpost   = "hexo new \"@title@\"";
             var _run_hexo_newdraft  = "hexo new draft \"@title@\"";
             var _run_hexo_postdraft = "hexo publish @filename@";
             var _run_hexo_clean     = "hexo clean";
@@ -66,6 +67,11 @@ namespace HexoCommander
 
                         switch (cmd)
                         {
+                            case "NEWPOST": // parameter 1 expects title of draft
+                                cmds.Add(_run_hexo_newpost.Replace("@title@", arr[1].Trim().Replace("\"", "")));
+                                RunCommands(cmds, opt.WorkDir);
+                                break;
+
                             case "NEWDRAFT": // parameter 1 expects title of draft
                                 cmds.Add(_run_hexo_newdraft.Replace("@title@", arr[1].Trim().Replace("\"", "")));
                                 RunCommands(cmds, opt.WorkDir);
@@ -100,11 +106,14 @@ namespace HexoCommander
                         cmdCount += 1;
                     }
                 }
-                File.WriteAllLines(fi.FullName, lst);
-
+                
                 if (cmdCount == 0)
                 {
                     Console.WriteLine("There was nothing to do...");
+                } else
+                {
+                    //write file after processing all commands
+                    File.WriteAllLines(fi.FullName, lst);
                 }
             }
 

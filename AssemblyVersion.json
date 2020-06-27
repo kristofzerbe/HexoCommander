@@ -1,0 +1,17 @@
+﻿{
+  "initialDate": "2019-09-29",
+  "versions": [
+    {
+      "major": 1,
+      "minor": 1,
+      "releaseDate": "",
+      "remarks": "Add 'newpost' command, new versioning system"
+    },
+    {
+      "major": 1,
+      "minor": 0,
+      "releaseDate": "2019-10-01",
+      "remarks": "Initial Release"
+    }
+  ]
+}

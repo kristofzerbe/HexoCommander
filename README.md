@@ -6,6 +6,12 @@ a **Hexo blog**, synced via **Dropbox** and published on **GitHub Pages**.
 It expects the Hexo Command File to be named ``hexo-commands.txt``, 
 located in the same folder, and provides the following commands:
 
+**newpost: "&lt;title&gt;"** ... runs
+
+1. ```hexo new draft "<title>"```
+
+Creates a new post.
+
 **newdraft: "&lt;title&gt;"** ... runs
 
 1. ```hexo new draft "<title>"```
