@@ -47,63 +47,70 @@ namespace HexoCommander
 
                 foreach (string s in lns)
                 {
-                    var ln = s.Split('@');
-                    if (ln.Length > 1) // already executed
-                    { 
+                    if (s.Trim().Length == 0 || s.StartsWith("//"))
+                    {
                         lst.Add(s);
-                    }
+                    } 
                     else
                     {
-                        //separate command from parameters by colon
-                        var arr = s.Split(':');
-                        var cmd = arr[0].Trim().ToUpper();
-
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("HexoCommander is running " + cmd);
-                        Console.WriteLine();
-                        Console.ForegroundColor = ConsoleColor.White;
-
-                        var cmds = new List<string>();
-
-                        switch (cmd)
+                        var ln = s.Split('@');
+                        if (ln.Length > 1) // already executed
                         {
-                            case "NEWPOST": // parameter 1 expects title of draft
-                                cmds.Add(_run_hexo_newpost.Replace("@title@", arr[1].Trim().Replace("\"", "")));
-                                RunCommands(cmds, opt.WorkDir);
-                                break;
-
-                            case "NEWDRAFT": // parameter 1 expects title of draft
-                                cmds.Add(_run_hexo_newdraft.Replace("@title@", arr[1].Trim().Replace("\"", "")));
-                                RunCommands(cmds, opt.WorkDir);
-                                break;
-
-                            case "POSTDRAFT": // parameter 1 expects filename of draft to publish
-                                cmds.Add(_run_hexo_postdraft.Replace("@filename@", arr[1].Trim()));
-                                cmds.Add(_run_hexo_generate);
-                                RunCommands(cmds, opt.WorkDir);
-                                break;
-
-                            case "REGENERATE":
-                                cmds.Add(_run_hexo_clean);
-                                cmds.Add(_run_hexo_generate);
-                                RunCommands(cmds, opt.WorkDir);
-                                break;
-
-                            case "PUBLISH":
-                                cmds.Add(_run_hexo_generate);
-                                cmds.Add(_run_git_stage);
-                                cmds.Add(_run_git_commit);
-                                cmds.Add(_run_git_push);
-                                RunCommands(cmds, opt.WorkDir);
-                                break;
-
-                            default:
-                                Console.WriteLine("Unknown Command");
-                                break;
+                            lst.Add(s);
                         }
-                        lst.Add(s + " @ " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        else
+                        {
+                            //separate command from parameters by colon
+                            var arr = s.Split(':');
+                            var cmd = arr[0].Trim().ToUpper();
 
-                        cmdCount += 1;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("HexoCommander is running " + cmd);
+                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.White;
+
+                            var cmds = new List<string>();
+
+                            switch (cmd)
+                            {
+                                case "NEWPOST": // parameter 1 expects title of draft
+                                    cmds.Add(_run_hexo_newpost.Replace("@title@", arr[1].Trim().Replace("\"", "")));
+                                    RunCommands(cmds, opt.WorkDir);
+                                    break;
+
+                                case "NEWDRAFT": // parameter 1 expects title of draft
+                                    cmds.Add(_run_hexo_newdraft.Replace("@title@", arr[1].Trim().Replace("\"", "")));
+                                    RunCommands(cmds, opt.WorkDir);
+                                    break;
+
+                                case "POSTDRAFT": // parameter 1 expects filename of draft to publish
+                                    cmds.Add(_run_hexo_postdraft.Replace("@filename@", arr[1].Trim()));
+                                    cmds.Add(_run_hexo_generate);
+                                    RunCommands(cmds, opt.WorkDir);
+                                    break;
+
+                                case "REGENERATE":
+                                    cmds.Add(_run_hexo_clean);
+                                    cmds.Add(_run_hexo_generate);
+                                    RunCommands(cmds, opt.WorkDir);
+                                    break;
+
+                                case "PUBLISH":
+                                    cmds.Add(_run_hexo_generate);
+                                    cmds.Add(_run_git_stage);
+                                    cmds.Add(_run_git_commit);
+                                    cmds.Add(_run_git_push);
+                                    RunCommands(cmds, opt.WorkDir);
+                                    break;
+
+                                default:
+                                    Console.WriteLine("Unknown Command");
+                                    break;
+                            }
+                            lst.Add(s + " @ " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                            cmdCount += 1;
+                        }
                     }
                 }
                 

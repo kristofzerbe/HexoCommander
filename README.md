@@ -4,7 +4,9 @@ HexoCommander is a little C# console for running bundled commands to manage
 a **Hexo blog**, synced via **Dropbox** and published on **GitHub Pages**.
 
 It expects the Hexo Command File to be named ``hexo-commands.txt``, 
-located in the same folder, and provides the following commands:
+located in the same folder or executed with the parameter "/workdir=<Path to your folder>"
+
+It provides the following commands:
 
 **newpost: "&lt;title&gt;"** ... runs
 
@@ -41,6 +43,6 @@ Wipes all Hexo static pages and generates them new.
 Generates Hexo static pages, stage changes on drafts, posts and static pages, 
 commits the changes with a generic message and pushes them to the server.
 
-It works best as a demon via Windows Task Schedule. 
+If you want to write comment lines in the 'command.txt', use "//" in front of the line.
 
 See my article about it at [https://kiko.io/categories/Tools/A-New-Blog-Blogging-and-Synching-en-route](https://kiko.io/categories/Tools/A-New-Blog-Blogging-and-Synching-en-route)
