@@ -8,7 +8,7 @@
 <#@ import namespace="System.Linq" #>
 
 <# 
-    //Read AssemblyVersion.json and convert to object
+    //Read AssemblyVersion.json and convert to object via definition with Newtonsoft.JSON
     string avPath = this.Host.ResolvePath("AssemblyVersion.json");
     string avJson = File.ReadAllText(avPath);
 
@@ -37,10 +37,10 @@
     string buildlogFolder = this.Host.ResolvePath("BuildLogs");
     string buildLog = buildlogFolder + "\\" + maxVersion.major + "." + maxVersion.minor + ".log";
     
-    //Get number of lines from BuildLog
-    var buildCount = 0;
+    //Get number of lines from BuildLog or create a new log (!)
+    var buildCount = 1;
     if (File.Exists(buildLog)) {
-        buildCount = File.ReadLines(buildLog).Count();
+        buildCount = File.ReadLines(buildLog).Count() + 1;
     } else {
         File.Create(buildLog).Dispose();
     }
