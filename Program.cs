@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading;
 
 namespace HexoCommander
 {
@@ -22,14 +19,15 @@ namespace HexoCommander
 
             var _commandFile = "hexo-commands.txt";
 
-            var _run_hexo_newpost   = "hexo new \"@title@\"";
-            var _run_hexo_newdraft  = "hexo new draft \"@title@\"";
-            var _run_hexo_postdraft = "hexo publish @filename@";
-            var _run_hexo_clean     = "hexo clean";
-            var _run_hexo_generate  = "hexo generate";
-            var _run_git_stage      = "git add \"source/*\" \"docs/*\"";
-            var _run_git_commit     = "git commit -m \"Remote publication via HexoCommander\"";
-            var _run_git_push       = "git push origin master";
+            var _run_hexo_newpost       = "hexo new post \"@TITLE@\"";
+            var _run_hexo_newdiscovery  = "hexo new discovery \"Discovery #@NUMBER@\"";
+            var _run_hexo_newdraft      = "hexo new draft \"@TITLE@\"";
+            var _run_hexo_postdraft     = "hexo publish @FILENAME@";
+            var _run_hexo_clean         = "hexo clean";
+            var _run_hexo_generate      = "hexo generate";
+            var _run_git_stage          = "git add \"source/*\" \"docs/*\"";
+            var _run_git_commit         = "git commit -m \"Remote @COMMAND@ via HexoCommander\"";
+            var _run_git_push           = "git push origin master";
 
             var di = new DirectoryInfo(opt.WorkDir);
             var fis = di.GetFiles(_commandFile);
@@ -74,17 +72,22 @@ namespace HexoCommander
                             switch (cmd)
                             {
                                 case "NEWPOST": // parameter 1 expects title of draft
-                                    cmds.Add(_run_hexo_newpost.Replace("@title@", arr[1].Trim().Replace("\"", "")));
+                                    cmds.Add(_run_hexo_newpost.Replace("@TITLE@", arr[1].Trim().Replace("\"", "")));
+                                    RunCommands(cmds, opt.WorkDir);
+                                    break;
+
+                                case "NEWDISCOVERY": // parameter 1 expects number of Discovery issue
+                                    cmds.Add(_run_hexo_newdiscovery.Replace("@NUMBER@", arr[1].Trim()));
                                     RunCommands(cmds, opt.WorkDir);
                                     break;
 
                                 case "NEWDRAFT": // parameter 1 expects title of draft
-                                    cmds.Add(_run_hexo_newdraft.Replace("@title@", arr[1].Trim().Replace("\"", "")));
+                                    cmds.Add(_run_hexo_newdraft.Replace("@TITLE@", arr[1].Trim().Replace("\"", "")));
                                     RunCommands(cmds, opt.WorkDir);
                                     break;
 
                                 case "POSTDRAFT": // parameter 1 expects filename of draft to publish
-                                    cmds.Add(_run_hexo_postdraft.Replace("@filename@", arr[1].Trim()));
+                                    cmds.Add(_run_hexo_postdraft.Replace("@FILENAME@", arr[1].Trim()));
                                     cmds.Add(_run_hexo_generate);
                                     RunCommands(cmds, opt.WorkDir);
                                     break;
@@ -92,13 +95,16 @@ namespace HexoCommander
                                 case "REGENERATE":
                                     cmds.Add(_run_hexo_clean);
                                     cmds.Add(_run_hexo_generate);
+                                    cmds.Add(_run_git_stage);
+                                    cmds.Add(_run_git_commit.Replace("@COMMAND@", cmd));
+                                    cmds.Add(_run_git_push);
                                     RunCommands(cmds, opt.WorkDir);
                                     break;
 
-                                case "PUBLISH":
+                                case "GENERATE":
                                     cmds.Add(_run_hexo_generate);
                                     cmds.Add(_run_git_stage);
-                                    cmds.Add(_run_git_commit);
+                                    cmds.Add(_run_git_commit.Replace("@COMMAND@", cmd));
                                     cmds.Add(_run_git_push);
                                     RunCommands(cmds, opt.WorkDir);
                                     break;

@@ -129,6 +129,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\kiko.io\hexo-commands.txt">
+      <Link>hexo-commands.txt</Link>
+    </Content>
     <Content Include="AssemblyVersion\AssemblyVersion.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyVersion.cs</LastGenOutput>
@@ -148,7 +151,9 @@
     </PostBuildEventDependsOn>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>"$(ProjectDir)\AssemblyVersion\CreateBuildLog.bat" "$(ProjectDir)" @(VersionNumber)</PostBuildEvent>
+    <PostBuildEvent>xcopy $(TargetPath) "D:\Dropbox\GitHub\kiko.io" /Y
+"$(ProjectDir)\AssemblyVersion\CreateBuildLog.bat" "$(ProjectDir)" @(VersionNumber)
+</PostBuildEvent>
   </PropertyGroup>
   <Target Name="PostBuildMacros">
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
