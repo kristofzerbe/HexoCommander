@@ -19,15 +19,15 @@ namespace HexoCommander
 
             var _commandFile = "hexo-commands.txt";
 
-            var _run_hexo_newpost       = "hexo new post \"@TITLE@\"";
-            var _run_hexo_newdiscovery  = "hexo new discovery \"Discovery #@NUMBER@\"";
-            var _run_hexo_newdraft      = "hexo new draft \"@TITLE@\"";
-            var _run_hexo_postdraft     = "hexo publish @FILENAME@";
-            var _run_hexo_clean         = "hexo clean";
-            var _run_hexo_generate      = "hexo generate";
-            var _run_git_stage          = "git add \"source/*\" \"docs/*\"";
-            var _run_git_commit         = "git commit -m \"Remote @COMMAND@ via HexoCommander\"";
-            var _run_git_push           = "git push origin master";
+            var _run_hexo_newpost           = "hexo new post \"@TITLE@\"";
+            var _run_hexo_newdiscoveries    = "hexo new discovery \"Discoveries #@NUMBER_SUFFIX@\"";
+            var _run_hexo_newdraft          = "hexo new draft \"@TITLE@\"";
+            var _run_hexo_postdraft         = "hexo publish @FILENAME@";
+            var _run_hexo_clean             = "hexo clean";
+            var _run_hexo_generate          = "hexo generate";
+            var _run_git_stage              = "git add \"source/*\" \"docs/*\"";
+            var _run_git_commit             = "git commit -m \"Remote @COMMAND@ via HexoCommander\"";
+            var _run_git_push               = "git push origin master";
 
             var di = new DirectoryInfo(opt.WorkDir);
             var fis = di.GetFiles(_commandFile);
@@ -76,8 +76,8 @@ namespace HexoCommander
                                     RunCommands(cmds, opt.WorkDir);
                                     break;
 
-                                case "NEWDISCOVERY": // parameter 1 expects number of Discovery issue
-                                    cmds.Add(_run_hexo_newdiscovery.Replace("@NUMBER@", arr[1].Trim()));
+                                case "NEWDISCOVERIES": // parameter 1 expects number of Discovery issue
+                                    cmds.Add(_run_hexo_newdiscoveries.Replace("@NUMBER_SUFFIX@", arr[1].Trim().Replace("\"", "")));
                                     RunCommands(cmds, opt.WorkDir);
                                     break;
 
